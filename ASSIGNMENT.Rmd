@@ -1,0 +1,187 @@
+---
+title: "ASSIGNMENT"
+author: "Takunda Nyenya"
+date: "18/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#BASICS
+
+##1.1 Variables in R
+
+What is the value of " B " after running these command? 
+
+```{r}
+a <- 5.0
+c <- 10
+t <- 12
+B <- a+c/t
+```
+The value of B is: `r round (B,2)`
+
+What type of vector do you get in each of the following?
+```{r}
+vec_1 <- c(44, 5, 0, "k")
+vec_2 <- c(1, 2, 3, FALSE)
+vec_3 <- c("a", "b", "c", TRUE)
+vec_4 <- c(1, 2, 3, "4")
+```
+vec_1 is a numerical vector.
+
+vec_2 is a numerical vector.
+
+vec_3 is a character vector.
+
+vec_4 is a numerical vector.
+ 
+
+
+##1.2 Conditional subsetting
+
+Consider the following vector:
+```{r}
+vec <- c(141.2741, 141.8392, 140.5730,NA, 141.3571, 139.8689, 
+         137.9384, NA,139.6620, 138.2521, 138.8635, 141.3885, NA)
+```
+
+##1.2.1. Create a vector vec_1 with no missing values using conditional subsetting and explain your code.
+```{r}
+vec <- c(141.2741, 141.8392, 140.5730,NA, 141.3571, 139.8689, 
+         137.9384, NA,139.6620, 138.2521, 138.8635, 141.3885, NA)
+vec[!is.na(vec)]#THIS CODE ONLY DISPLAYS ONLY THE VALUES IN THE VECTOR
+```
+
+
+## 1.2.2. Create a vector of indexes of missing values using conditional subsetting and explain your code.
+```{r}
+vec <- c(141.2741, 141.8392, 140.5730,NA, 141.3571, 139.8689, 
+         137.9384, NA,139.6620, 138.2521, 138.8635, 141.3885, NA)
+ vec[is.na(vec)]#THIS CODE WILL ONLY SHOW THE MISSING VALUES
+
+```
+
+## 1.2.3. Write a code to determine how many missing values are in vector.
+```{r}
+vec <- c(141.2741, 141.8392, 140.5730,NA, 141.3571, 139.8689, 
+         137.9384, NA,139.6620, 138.2521, 138.8635, 141.3885, NA)
+length(vec[is.na(vec)])
+```
+
+## 1.2.4. Write a R code to create a data frame which contains details of 3 students.
+```{r}
+name<- c("LUCY", "KUNASHE", "GRACE")
+surname <- c("NYENYA", "NYENYA", "NYENYA")
+age <- c(43 , 16 , 5)
+gender<-c("FEMALE", "MALE", "FEMALE")
+df <- data.frame(name,surname,age,gender); df
+ 
+```
+#2. FUNCTIONS IN R
+
+## 2.1. Create a function which returns a mean of an input vector and explain your code.
+```{r}
+mean <- function(vector){
+ z<-mean(vector,na.rm=TRUE)
+ return(z)
+  }
+#example:
+mean<-c(1,2,3)
+mean(mean)
+```
+Explanation: I created a function which returns the mean of a vector
+
+## 2.2. Create a function which take no inputs , it reads a Titanic .csv file and returns its content and explain your code.
+```{r}
+read.csv('train.csv') #THIS CODE READS THE CSV FILE
+```
+Explanation : The function reads a csv file without inputting anything
+
+
+#3. Conditional and Loops
+
+## 3.1. Write a function that take an input below and returns a transformed vector below into 1 when its element is male and 2 when its female using ifelse.
+```{r}
+g <- c("MALE","FEMALE","FEMALE","MALE","FEMALE","MALE","MALE","FEMALE", "MALE","MALE","FEMALE","MALE","MALE",
+"FEMALE","MALE","MALE","MALE")
+
+```
+code:
+```{r}
+Gender<-function(){
+  y<-ifelse(g == "MALE",1,2)
+  return(y)
+}
+Gender()
+```
+
+
+##3.2. Generate x from normal distribution and sample with replacement "M" and "F" for male and female respectively by running the code below.
+```{r}
+x <- rnorm(1000, 120, 5)
+y <- sample(c("M","F"),size = 1000, replace = TRUE)
+
+
+
+```
+
+
+## 3.2.1. Use the "cbind " function in R to create one dataset and assign it to df.
+```{r}
+
+x <- rnorm(1000, 120, 5)
+y <- sample(c("M","F"),size = 1000, replace = TRUE)
+df <- cbind(x,y)
+print (df)
+```
+
+
+##3.2.2. Convert df from 3.2.1 into a data.frame 
+```{r}
+x <- rnorm(1000, 120, 5)
+y <- sample(c("M","F"),size = 1000, replace = TRUE)
+df <- data.frame(df)
+print (df)
+
+```
+
+
+## 3.2.3. Write a code using tidyverse to compute a number of males ("M") and females ("F") in 3.2.1 
+```{r}
+library(tidyverse)
+
+df %>% group_by(y) %>% count(
+  
+)
+
+```
+
+
+## 3.2.4. Create a bar plot using ggplot to visualize your results in 3.2.3
+```{r}
+library(ggplot2)
+
+df %>% group_by(y) %>% count() %>% 
+ggplot(aes(x=y,y=n,))+
+  geom_col()+
+  labs(y="Total" , x="Gender", title="Bar Plot")
+  
+
+```
+
+
+## 3.2.5. Use mutate function to add sum of x per "M" and "F" and plot the results using sum of x per "M" and "F".
+```{r}
+library(readxl)
+df_new <-df %>% group_by(y) %>% count %>% 
+  mutate(per_no=(n/1000*100)) 
+ggplot(df_new, aes(y, y=per_no))+
+  geom_col()
+
+
+```
+
